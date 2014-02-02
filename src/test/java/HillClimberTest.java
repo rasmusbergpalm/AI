@@ -17,6 +17,6 @@ public class HillClimberTest {
             final QueensProblem solution = climber.solve(queensProblem);
             if(solution.getScore() == 0) solved++;
         }
-        assertEquals(0.14, (float) solved / N, 0.02d);
+        assertEquals(0.14, (double) solved / N, 0.02d);
     }
 }
