@@ -8,8 +8,7 @@ public class QueensProblem implements Problem<QueensProblem> {
 
     private int[] state = new int[8];
 
-    public QueensProblem() {
-        final Random random = new Random();
+    public QueensProblem(Random random) {
         int[] state = new int[8];
         for (int i = 0; i < 8; i++) {
             state[i] = random.nextInt(8);
