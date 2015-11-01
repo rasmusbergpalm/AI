@@ -19,10 +19,10 @@ public class SimulatedAnnealingTest {
         int solved = 0;
         final int N = 1000;
         for (int i = 0; i < N; i++) {
-            final SimulatedAnnealing<QueensProblem> simulatedAnnealing = new SimulatedAnnealing<QueensProblem>(schedule, new Random(1l));
+            final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1l));
 
             final QueensProblem problem = new QueensProblem(random);
-            final QueensProblem solution = simulatedAnnealing.solve(problem);
+            final Problem solution = simulatedAnnealing.solve(problem);
 
             if (solution.getScore() == 0) solved++;
         }

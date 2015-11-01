@@ -1,3 +1,3 @@
-public interface Solver<P extends Problem> {
-    public P solve(P problem);
+public interface Solver {
+    public Problem solve(Problem problem);
 }
