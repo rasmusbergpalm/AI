@@ -42,21 +42,20 @@ public class MasterMindProblemTest {
 
     @Test
     public void timer() {
-        for (int u = 0; u < 20; u++) {
-            final long start = System.currentTimeMillis();
+        final long start = System.currentTimeMillis();
+        int sum = 0;
+        final int N = 1000;
+        for (int u = 0; u < N; u++) {
             MasterMindProblem problem = new MasterMindProblem(new Random());
-            System.out.println("New: " + (System.currentTimeMillis() - start));
             int i = 0;
             do {
                 final Set<Problem> successors = problem.getSuccessors();
-                System.out.println("Iter: " + (System.currentTimeMillis() - start));
                 problem = (MasterMindProblem) successors.iterator().next();
-            } while (!problem.isSolved() && i++ < 20);
-            assertTrue(problem.getRows().size() < 10);
-            System.out.println(problem);
-            System.out.println("Total: " + (System.currentTimeMillis() - start));
+            } while (!problem.isSolved() && i++ < 200);
+            sum += problem.getRows().size();
         }
-
+        System.out.println("Average: " + (float) (System.currentTimeMillis() - start) / N + "ms per problem");
+        System.out.println("Average attempts: " + sum / (float) N);
     }
 
 }

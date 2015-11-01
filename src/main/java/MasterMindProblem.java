@@ -1,5 +1,4 @@
 import com.google.common.base.Joiner;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableMap;
@@ -30,22 +29,13 @@ public class MasterMindProblem implements Problem {
 
     private final ImmutableList<Integer> goal;
     private final ImmutableList<Row> rows;
-    private final ImmutableList<ImmutableList<Integer>> possible;
 
-    private MasterMindProblem(final ImmutableList<Integer> goal, final ImmutableList<Row> rows, final ImmutableList<ImmutableList<Integer>> possible) {
+    public MasterMindProblem(final ImmutableList<Integer> goal, final ImmutableList<Row> attempts, final ImmutableList<Integer> attempt) {
         this.goal = goal;
-        this.rows = rows;
-        this.possible = possible;
-    }
-
-    private MasterMindProblem attempt(final ImmutableList<Integer> attempt) {
-        final Row row = new Row(attempt, goal);
-        final MasterMindProblem problem = new MasterMindProblem(
-            this.goal,
-            ImmutableList.<Row>builder().addAll(this.rows).add(row).build(),
-            FluentIterable.from(possible).filter(row).toList()
-        );
-        return problem;
+        this.rows = ImmutableList.<Row>builder()
+            .addAll(attempts)
+            .add(new Row(attempt, goal))
+            .build();
     }
 
     public MasterMindProblem(final Random random) {
@@ -56,11 +46,6 @@ public class MasterMindProblem implements Problem {
         }
         goal = goalBuilder.build();
 
-        final Builder<ImmutableList<Integer>> possibleBuilder = ImmutableList.builder();
-        for (final ICombinatoricsVector<Integer> possible : ALL) {
-            possibleBuilder.add(ImmutableList.copyOf(possible.getVector()));
-        }
-        possible = possibleBuilder.build();
     }
 
     public boolean isSolved() {
@@ -83,8 +68,11 @@ public class MasterMindProblem implements Problem {
     @Override
     public Set<Problem> getSuccessors() {
         final Set<Problem> successors = Sets.newHashSet();
-        for (final ImmutableList<Integer> attempt : possible) {
-            successors.add(attempt(attempt));
+        for (final ICombinatoricsVector<Integer> move : ALL) {
+            final ImmutableList<Integer> attempt = ImmutableList.copyOf(move.getVector());
+            if (isPossible(attempt)) {
+                successors.add(new MasterMindProblem(goal, rows, attempt));
+            }
         }
         return successors;
     }
@@ -95,6 +83,15 @@ public class MasterMindProblem implements Problem {
             "Goal:\t" + Joiner.on(" ").join(goal) + "\n"
                 + "Score: " + getScore() + "\n\n"
                 + Joiner.on("\n").join(rows.reverse()) + "\n";
+    }
+
+    private boolean isPossible(final ImmutableList<Integer> attempt) {
+        for (final Row prev : rows) {
+            if (!prev.isPossible(attempt)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
