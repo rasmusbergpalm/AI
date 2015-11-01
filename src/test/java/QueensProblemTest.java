@@ -38,12 +38,12 @@ public class QueensProblemTest {
     public void testGetSuccessors() {
         problem = new QueensProblem(new int[]{0, 0, 0, 0, 0, 0, 0, 0});
 
-        final Set<QueensProblem> successors = problem.getSuccessors();
+        final Set<Problem> successors = problem.getSuccessors();
         assertEquals(56, successors.size());
-        for (QueensProblem successor : successors) {
+        for (Problem successor : successors) {
             assertFalse(problem.equals(successor));
 
-            int[] successorState = successor.getState();
+            int[] successorState = ((QueensProblem)successor).getState();
             int countZeros = 0;
             for (int i = 0; i < 8; i++) {
                 if (successorState[i] == 0) countZeros++;
