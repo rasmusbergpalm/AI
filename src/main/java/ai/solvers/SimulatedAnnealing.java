@@ -1,3 +1,6 @@
+package ai.solvers;
+
+import ai.problems.Problem;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -9,7 +12,7 @@ public class SimulatedAnnealing implements Solver {
     private final AnnealingSchedule schedule;
     private final Random random;
 
-    public SimulatedAnnealing(AnnealingSchedule schedule, Random random) {
+    public SimulatedAnnealing(final AnnealingSchedule schedule, final Random random) {
         this.schedule = schedule;
         this.random = random;
     }
@@ -20,7 +23,7 @@ public class SimulatedAnnealing implements Solver {
         double temperature;
         while ((temperature = schedule.getTemperature(i++)) > 0) {
             final Set<Problem> successors = problem.getSuccessors();
-            List<Problem> shuffled = Lists.newArrayList(successors);
+            final List<Problem> shuffled = Lists.newArrayList(successors);
             Collections.shuffle(shuffled, random);
             final Problem next = shuffled.get(0);
             final double deltaScore = next.getScore() - problem.getScore();
@@ -32,6 +35,6 @@ public class SimulatedAnnealing implements Solver {
     }
 
     public interface AnnealingSchedule {
-        public double getTemperature(int iteration);
+        double getTemperature(int iteration);
     }
 }

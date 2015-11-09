@@ -1,3 +1,5 @@
+package ai.problems;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import org.junit.Test;

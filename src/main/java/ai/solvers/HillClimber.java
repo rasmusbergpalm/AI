@@ -1,3 +1,7 @@
+package ai.solvers;
+
+import ai.problems.Problem;
+
 import java.util.PriorityQueue;
 import java.util.Set;
 

@@ -1,3 +1,5 @@
+package ai.problems;
+
 import org.junit.Test;
 
 import java.util.Set;

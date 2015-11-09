@@ -1,3 +1,7 @@
+package ai.solvers;
+
+import ai.problems.Problem;
+import ai.problems.QueensProblem;
 import org.junit.Test;
 
 import java.util.Random;
