@@ -1,4 +1,4 @@
-package ai.solvers;
+package ai.optimizers;
 
 import ai.problems.Problem;
 import ai.problems.QueensProblem;
@@ -18,7 +18,7 @@ public class HillClimberTest {
         for (int i = 0; i < N; i++) {
             final QueensProblem queensProblem = new QueensProblem(random);
             final HillClimber climber = new HillClimber(100);
-            final Problem solution = climber.solve(queensProblem);
+            final Problem solution = climber.optimize(queensProblem);
             if (solution.isSolved()) {
                 solved++;
             }

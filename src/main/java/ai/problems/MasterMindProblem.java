@@ -52,15 +52,11 @@ public class MasterMindProblem implements Problem {
 
     @Override
     public boolean isSolved() {
-        return rows.reverse().get(0).getAttempt().equals(goal);
+        return !rows.isEmpty() && rows.reverse().get(0).getAttempt().equals(goal);
     }
 
     public ImmutableList<Row> getRows() {
         return rows;
-    }
-
-    public ImmutableList<Integer> getGoal() {
-        return goal;
     }
 
     @Override

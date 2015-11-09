@@ -1,11 +1,11 @@
-package ai.solvers;
+package ai.optimizers;
 
 import ai.problems.Problem;
 
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class HillClimber implements Solver {
+public class HillClimber implements Optimizer {
     private final int maxIterations;
 
     public HillClimber(final int maxIterations) {
@@ -13,7 +13,7 @@ public class HillClimber implements Solver {
     }
 
     @Override
-    public Problem solve(Problem problem) {
+    public Problem optimize(Problem problem) {
         for (int i = 0; i < maxIterations; i++) {
             final Set<Problem> successors = problem.getSuccessors();
 

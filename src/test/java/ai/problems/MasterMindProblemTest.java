@@ -1,5 +1,6 @@
 package ai.problems;
 
+import ai.solvers.RandomSolver;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
@@ -29,20 +30,16 @@ public class MasterMindProblemTest {
     @Test
     public void can_solve_problems_fast() {
         final long start = System.currentTimeMillis();
-        int sum = 0;
+        int sumAttempts = 0;
         final int N = 100;
+        final RandomSolver solver = new RandomSolver(new Random(0), 10);
         for (int u = 0; u < N; u++) {
-            MasterMindProblem problem = new MasterMindProblem(new Random());
-            int i = 0;
-            do {
-                final Set<Problem> successors = problem.getSuccessors();
-                problem = (MasterMindProblem) successors.iterator().next();
-            } while (!problem.isSolved() && i++ < 200);
-            sum += problem.getRows().size();
+            MasterMindProblem solved = (MasterMindProblem) solver.solve(new MasterMindProblem(new Random(0)));
+            sumAttempts += solved.getRows().size();
         }
         final long took = System.currentTimeMillis() - start;
         assertTrue(took < 1000);
-        assertTrue((float) sum / N < 6);
+        assertTrue((float) sumAttempts / N < 6);
     }
 
 }

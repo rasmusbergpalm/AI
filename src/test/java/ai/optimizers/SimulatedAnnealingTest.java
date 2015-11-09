@@ -1,4 +1,4 @@
-package ai.solvers;
+package ai.optimizers;
 
 import ai.problems.Problem;
 import ai.problems.QueensProblem;
@@ -26,7 +26,7 @@ public class SimulatedAnnealingTest {
             final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1l));
 
             final QueensProblem problem = new QueensProblem(random);
-            final Problem solution = simulatedAnnealing.solve(problem);
+            final Problem solution = simulatedAnnealing.optimize(problem);
 
             if (solution.isSolved()) {
                 solved++;

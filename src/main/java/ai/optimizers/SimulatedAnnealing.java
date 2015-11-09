@@ -1,4 +1,4 @@
-package ai.solvers;
+package ai.optimizers;
 
 import ai.problems.Problem;
 import com.google.common.collect.Lists;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class SimulatedAnnealing implements Solver {
+public class SimulatedAnnealing implements Optimizer {
     private final AnnealingSchedule schedule;
     private final Random random;
 
@@ -18,7 +18,7 @@ public class SimulatedAnnealing implements Solver {
     }
 
     @Override
-    public Problem solve(Problem problem) {
+    public Problem optimize(Problem problem) {
         int i = 0;
         double temperature;
         while ((temperature = schedule.getTemperature(i++)) > 0) {
