@@ -7,11 +7,10 @@ public interface Problem {
 
     Comparator<Problem> COMPARATOR = new Comparator<Problem>() {
         @Override
-        public int compare(Problem a, Problem b) {
-            return Double.compare(b.getScore(), a.getScore());
+        public int compare(final Problem o1, final Problem o2) {
+            return Double.compare(o2.getScore(), o1.getScore());
         }
     };
-
 
     /**
      * Higher is better
@@ -19,7 +18,12 @@ public interface Problem {
     double getScore();
 
     /**
-     * Returns all possible succesor states
+     * Whether the problem is solved or not
+     */
+    boolean isSolved();
+
+    /**
+     * Returns all possible successor states
      */
     Set<Problem> getSuccessors();
 

@@ -10,15 +10,15 @@ public class QueensProblem implements Problem {
 
     private int[] state = new int[8];
 
-    public QueensProblem(Random random) {
-        int[] state = new int[8];
+    public QueensProblem(final Random random) {
+        final int[] state = new int[8];
         for (int i = 0; i < 8; i++) {
             state[i] = random.nextInt(8);
         }
         this.state = state;
     }
 
-    public QueensProblem(int[] state) {
+    public QueensProblem(final int[] state) {
         Preconditions.checkArgument(state.length == 8);
         this.state = state;
     }
@@ -37,12 +37,17 @@ public class QueensProblem implements Problem {
     }
 
     @Override
+    public boolean isSolved() {
+        return getScore() == 0;
+    }
+
+    @Override
     public Set<Problem> getSuccessors() {
-        Set<Problem> successors = Sets.newHashSet();
+        final Set<Problem> successors = Sets.newHashSet();
         for (int i = 0; i < 8; i++) {
             for (int u = 0; u < 8; u++) {
                 if (state[i] == u) continue;
-                int[] newState = new int[8];
+                final int[] newState = new int[8];
                 System.arraycopy(state, 0, newState, 0, state.length);
                 newState[i] = u;
                 successors.add(new QueensProblem(newState));
@@ -51,11 +56,11 @@ public class QueensProblem implements Problem {
         return successors;
     }
 
-    private int getScore(int column, int row) {
+    private int getScore(final int column, final int row) {
         int score = 0;
         for (int i = 0; i < 8; i++) {
             if (i == column) continue;
-            int dist = Math.abs(i - column);
+            final int dist = Math.abs(i - column);
 
             if (state[i] == row) score++;
             if (state[i] - dist == row) score++;

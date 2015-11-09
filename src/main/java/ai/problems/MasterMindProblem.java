@@ -50,6 +50,7 @@ public class MasterMindProblem implements Problem {
 
     }
 
+    @Override
     public boolean isSolved() {
         return rows.reverse().get(0).getAttempt().equals(goal);
     }
@@ -64,7 +65,7 @@ public class MasterMindProblem implements Problem {
 
     @Override
     public double getScore() {
-        return 0; //TODO
+        return 0;
     }
 
     @Override

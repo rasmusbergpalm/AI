@@ -19,7 +19,7 @@ public class SimulatedAnnealingTest {
 
     @Test
     public void testSolve() {
-        final Random random = new Random(1l);
+        final Random random = new Random(1L);
         int solved = 0;
         final int N = 1000;
         for (int i = 0; i < N; i++) {
@@ -28,7 +28,9 @@ public class SimulatedAnnealingTest {
             final QueensProblem problem = new QueensProblem(random);
             final Problem solution = simulatedAnnealing.solve(problem);
 
-            if (solution.getScore() == 0) solved++;
+            if (solution.isSolved()) {
+                solved++;
+            }
         }
         assertEquals(0.089, (double) solved / N, 0.02d);
     }

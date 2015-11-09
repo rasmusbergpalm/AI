@@ -45,7 +45,7 @@ public class RowTest {
     }
 
     @Test
-    public void foo() {
+    public void when_given_evidence_can_tell_if_move_is_possible() {
         Row row = new Row(ImmutableList.of(0, 0, 0, 0), ImmutableList.of(1, 1, 1, 1));
         assertFalse(row.isPossible(ImmutableList.of(0, 0, 0, 0)));
 

@@ -65,8 +65,8 @@ public class Row implements Predicate<ImmutableList<Integer>> {
 
     private int[] score(final ImmutableList<Integer> newAttempt, final ImmutableList<Integer> reference) {
         final int[] score = new int[2];
-        final List<Integer> restAtt = Lists.newArrayList(newAttempt.size());
-        final List<Integer> restRef = Lists.newArrayList(reference.size());
+        final List<Integer> restAtt = Lists.newArrayList();
+        final List<Integer> restRef = Lists.newArrayList();
         for (int i = 0; i < newAttempt.size(); i++) {
             final Integer c1 = newAttempt.get(i);
             final Integer c2 = reference.get(i);
@@ -89,7 +89,7 @@ public class Row implements Predicate<ImmutableList<Integer>> {
      * Given the evidence we have by this attempt, is the given attempt possible?
      */
     @Override
-    public boolean apply(final ImmutableList<Integer> input) {
-        return isPossible(input);
+    public boolean apply(final ImmutableList<Integer> t) {
+        return isPossible(t);
     }
 }

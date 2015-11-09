@@ -8,7 +8,7 @@ import java.util.Set;
 public class HillClimber implements Solver {
     private final int maxIterations;
 
-    public HillClimber(int maxIterations) {
+    public HillClimber(final int maxIterations) {
         this.maxIterations = maxIterations;
     }
 
