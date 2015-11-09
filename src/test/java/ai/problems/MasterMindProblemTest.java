@@ -17,11 +17,11 @@ public class MasterMindProblemTest {
     @Test
     public void generates_accessors() {
         final MasterMindProblem problem = new MasterMindProblem(new Random(1));
-        final Set<Problem> successors = problem.getSuccessors();
+        final Set<MasterMindProblem> successors = problem.getSuccessors();
         assertEquals(1296, successors.size());
-        Set<List<Integer>> seen = Sets.newHashSet();
-        for (Problem successor : successors) {
-            final List<Integer> attempt = ((MasterMindProblem) successor).getRows().get(0).getAttempt();
+        final Set<List<Integer>> seen = Sets.newHashSet();
+        for (final MasterMindProblem successor : successors) {
+            final List<Integer> attempt = successor.getRows().get(0).getAttempt();
             assertFalse(seen.contains(attempt));
             seen.add(attempt);
         }
@@ -34,7 +34,7 @@ public class MasterMindProblemTest {
         final int N = 100;
         final RandomSolver solver = new RandomSolver(new Random(0), 10);
         for (int u = 0; u < N; u++) {
-            MasterMindProblem solved = (MasterMindProblem) solver.solve(new MasterMindProblem(new Random(0)));
+            final MasterMindProblem solved = solver.solve(new MasterMindProblem(new Random(0)));
             sumAttempts += solved.getRows().size();
         }
         final long took = System.currentTimeMillis() - start;

@@ -3,5 +3,5 @@ package ai.solvers;
 import ai.problems.Problem;
 
 public interface Solver {
-    Problem solve(Problem problem);
+    <T extends Problem<T>> T solve(T initial);
 }

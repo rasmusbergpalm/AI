@@ -12,7 +12,7 @@ import org.paukov.combinatorics.ICombinatoricsVector;
 import java.util.Random;
 import java.util.Set;
 
-public class MasterMindProblem implements Problem {
+public class MasterMindProblem implements Problem<MasterMindProblem> {
 
     public static final int POSITIONS = 4;
     private static final ImmutableMap<Integer, String> COLORS = ImmutableMap.<Integer, String>builder()
@@ -65,8 +65,8 @@ public class MasterMindProblem implements Problem {
     }
 
     @Override
-    public Set<Problem> getSuccessors() {
-        final Set<Problem> successors = Sets.newHashSet();
+    public Set<MasterMindProblem> getSuccessors() {
+        final Set<MasterMindProblem> successors = Sets.newHashSet();
         for (final ICombinatoricsVector<Integer> move : ALL) {
             final ImmutableList<Integer> attempt = ImmutableList.copyOf(move.getVector());
             if (isPossible(attempt)) {

@@ -18,14 +18,15 @@ public class SimulatedAnnealing implements Optimizer {
     }
 
     @Override
-    public Problem optimize(Problem problem) {
+    public <T extends Problem<T>> T optimize(final T initial) {
         int i = 0;
         double temperature;
+        T problem = initial;
         while ((temperature = schedule.getTemperature(i++)) > 0) {
-            final Set<Problem> successors = problem.getSuccessors();
-            final List<Problem> shuffled = Lists.newArrayList(successors);
+            final Set<T> successors = problem.getSuccessors();
+            final List<T> shuffled = Lists.newArrayList(successors);
             Collections.shuffle(shuffled, random);
-            final Problem next = shuffled.get(0);
+            final T next = shuffled.get(0);
             final double deltaScore = next.getScore() - problem.getScore();
             if (deltaScore > 0 || random.nextDouble() < Math.exp(deltaScore / temperature)) {
                 problem = next;

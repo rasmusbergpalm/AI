@@ -1,6 +1,6 @@
 package ai.optimizers;
 
-import ai.problems.Problem;
+import ai.optimizers.SimulatedAnnealing.AnnealingSchedule;
 import ai.problems.QueensProblem;
 import org.junit.Test;
 
@@ -10,9 +10,9 @@ import static org.junit.Assert.assertEquals;
 
 public class SimulatedAnnealingTest {
 
-    private SimulatedAnnealing.AnnealingSchedule schedule = new SimulatedAnnealing.AnnealingSchedule() {
+    private final AnnealingSchedule schedule = new AnnealingSchedule() {
         @Override
-        public double getTemperature(int iteration) {
+        public double getTemperature(final int iteration) {
             return 1 - (double) iteration / 100;
         }
     };
@@ -23,12 +23,12 @@ public class SimulatedAnnealingTest {
         int solved = 0;
         final int N = 1000;
         for (int i = 0; i < N; i++) {
-            final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1l));
+            final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1L));
 
             final QueensProblem problem = new QueensProblem(random);
-            final Problem solution = simulatedAnnealing.optimize(problem);
+            final QueensProblem optimized = simulatedAnnealing.optimize(problem);
 
-            if (solution.isSolved()) {
+            if (optimized.isSolved()) {
                 solved++;
             }
         }

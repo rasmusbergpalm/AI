@@ -3,7 +3,7 @@ package ai.problems;
 import java.util.Comparator;
 import java.util.Set;
 
-public interface Problem {
+public interface Problem<T extends Problem> {
 
     Comparator<Problem> COMPARATOR = new Comparator<Problem>() {
         @Override
@@ -25,7 +25,7 @@ public interface Problem {
     /**
      * Returns all possible successor states
      */
-    Set<Problem> getSuccessors();
+    Set<T> getSuccessors();
 
     /**
      * Textual representations

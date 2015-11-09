@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import java.util.Random;
 import java.util.Set;
 
-public class QueensProblem implements Problem {
+public class QueensProblem implements Problem<QueensProblem> {
 
     private int[] state = new int[8];
 
@@ -42,8 +42,8 @@ public class QueensProblem implements Problem {
     }
 
     @Override
-    public Set<Problem> getSuccessors() {
-        final Set<Problem> successors = Sets.newHashSet();
+    public Set<QueensProblem> getSuccessors() {
+        final Set<QueensProblem> successors = Sets.newHashSet();
         for (int i = 0; i < 8; i++) {
             for (int u = 0; u < 8; u++) {
                 if (state[i] == u) continue;

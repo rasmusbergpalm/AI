@@ -8,6 +8,7 @@ public interface Optimizer {
      * Optimize the problem
      *
      * @return
+     * @param initial
      */
-    Problem optimize(Problem problem);
+    <T extends Problem<T>> T optimize(T initial);
 }
