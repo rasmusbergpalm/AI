@@ -19,9 +19,6 @@ public class KnowledgeBase {
         }
         final Collection<String[]> rules = knowledgeBase.get(query);
         for (final String[] rule : rules) {
-            if (rule.length == 0) {
-                return true;
-            }
             boolean isTrue = true;
             for (final String concept : rule) {
                 if (!isTrue(concept)) {
