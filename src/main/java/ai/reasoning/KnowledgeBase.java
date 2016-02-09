@@ -1,36 +1,46 @@
 package ai.reasoning;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class KnowledgeBase {
 
-    private final Multimap<String, String[]> knowledgeBase = ArrayListMultimap.create();
+    private final ImmutableMultimap<String, List<String>> kb;
 
-    public void put(final String head, final String... body) {
-        knowledgeBase.put(head, body);
+    public static KnowledgeBase empty() {
+        return new KnowledgeBase();
     }
 
-    public boolean isTrue(final String query) {
-        if (!knowledgeBase.containsKey(query)) {
-            return false;
-        }
-        final Collection<String[]> rules = knowledgeBase.get(query);
-        for (final String[] rule : rules) {
-            boolean isTrue = true;
-            for (final String concept : rule) {
-                if (!isTrue(concept)) {
-                    isTrue = false;
-                    break;
-                }
-            }
-            if (isTrue) {
-                return true;
-            }
-        }
-        return false;
+    private KnowledgeBase() {
+        this(ImmutableMultimap.<String, List<String>>of());
     }
 
+    private KnowledgeBase(final ImmutableMultimap<String, List<String>> kb) {
+        this.kb = kb;
+    }
+
+    public KnowledgeBase add(final String head, final String... body) {
+        return new KnowledgeBase(
+            ImmutableMultimap.<String, List<String>>builder()
+                .putAll(kb)
+                .put(head, ImmutableList.copyOf(body))
+                .build()
+        );
+    }
+
+    public Collection<List<String>> get(final String statement) {
+        return kb.get(statement);
+    }
+
+    public boolean containsKey(final String statement) {
+        return kb.containsKey(statement);
+    }
+
+    public Set<String> keySet() {
+        return kb.keySet();
+    }
 }
