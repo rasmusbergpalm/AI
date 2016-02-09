@@ -1,38 +1,59 @@
 package ai.reasoning;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class TopDownReasoner implements Reasoner {
 
-    private final Set<String> asserting = Sets.newHashSet(); // TODO make threadsafe.
-
     @Override
     public boolean isTrue(final KnowledgeBase kb, final String statement) {
-        asserting.add(statement);
-        if (!kb.containsKey(statement)) {
-            asserting.remove(statement);
-            return false;
+        return new StateFullTopDownReasoner().isTrue(kb, statement);
+    }
+
+    private static class StateFullTopDownReasoner implements Reasoner {
+
+        private final Set<String> asserting = Sets.newHashSet();
+        private final Map<String, Boolean> cache = Maps.newHashMap();
+
+        StateFullTopDownReasoner() {
         }
-        final Collection<List<String>> rules = kb.get(statement);
-        for (final List<String> rule : rules) {
-            boolean isTrue = true;
-            for (final String subStatement : rule) {
-                if (asserting.contains(subStatement) || !isTrue(kb, subStatement)) {
-                    isTrue = false;
-                    break;
+
+        @Override
+        public boolean isTrue(final KnowledgeBase kb, final String statement) {
+            asserting.add(statement);
+            if (!kb.containsKey(statement)) {
+                return answer(statement, false);
+            }
+            if (cache.containsKey(statement)) {
+                return answer(statement, cache.get(statement));
+            }
+            final Collection<List<String>> rules = kb.get(statement);
+            for (final List<String> rule : rules) {
+                boolean isTrue = true;
+                for (final String subStatement : rule) {
+                    if (asserting.contains(subStatement) || !isTrue(kb, subStatement)) {
+                        isTrue = false;
+                        break;
+                    }
+                }
+                if (isTrue) {
+                    return answer(statement, true);
                 }
             }
-            if (isTrue) {
-                asserting.remove(statement);
-                return true;
-            }
+            return answer(statement, false);
         }
-        asserting.remove(statement);
-        return false;
+
+        private boolean answer(final String statement, final boolean answer) {
+            asserting.remove(statement);
+            cache.put(statement, answer);
+            return answer;
+        }
+
     }
 
 }
