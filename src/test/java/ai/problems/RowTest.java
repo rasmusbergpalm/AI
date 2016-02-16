@@ -1,5 +1,6 @@
 package ai.problems;
 
+import ai.problems.MasterMindProblem.Row;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 

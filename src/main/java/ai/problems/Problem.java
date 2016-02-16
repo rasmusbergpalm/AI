@@ -5,17 +5,17 @@ import java.util.Set;
 
 public interface Problem<T extends Problem> {
 
-    Comparator<Problem> COMPARATOR = new Comparator<Problem>() {
+    Comparator<Problem> COST_COMPARATOR = new Comparator<Problem>() {
         @Override
         public int compare(final Problem o1, final Problem o2) {
-            return Double.compare(o2.getScore(), o1.getScore());
+            return Double.compare(o1.getCost(), o2.getCost());
         }
     };
 
     /**
-     * Higher is better
+     * Lower is better
      */
-    double getScore();
+    double getCost();
 
     /**
      * Whether the problem is solved or not

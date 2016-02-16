@@ -14,22 +14,22 @@ public class HillClimber implements Optimizer {
 
     @Override
     public <T extends Problem<T>> T optimize(final T initial) {
-        T problem = initial;
+        T current = initial;
         for (int i = 0; i < maxIterations; i++) {
-            final Set<T> successors = problem.getSuccessors();
+            final Set<T> successors = current.getSuccessors();
 
-            final PriorityQueue<T> problems = new PriorityQueue<T>(successors.size(), Problem.COMPARATOR);
+            final PriorityQueue<T> problems = new PriorityQueue<T>(successors.size(), Problem.COST_COMPARATOR);
             problems.addAll(successors);
 
-            final T best = problems.poll();
+            final T next = problems.poll();
 
-            if (best.getScore() <= problem.getScore()) {
-                return problem;
+            if (next.getCost() >= current.getCost()) {
+                return current;
             }
 
-            problem = best;
+            current = next;
         }
 
-        return problem;
+        return current;
     }
 }

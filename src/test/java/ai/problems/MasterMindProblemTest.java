@@ -1,6 +1,7 @@
 package ai.problems;
 
 import ai.solvers.RandomSolver;
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
@@ -34,8 +35,9 @@ public class MasterMindProblemTest {
         final int N = 100;
         final RandomSolver solver = new RandomSolver(new Random(0), 10);
         for (int u = 0; u < N; u++) {
-            final MasterMindProblem solved = solver.solve(new MasterMindProblem(new Random(0)));
-            sumAttempts += solved.getRows().size();
+            final Optional<MasterMindProblem> solution = solver.solve(new MasterMindProblem(new Random(0)));
+            assertTrue(solution.isPresent());
+            sumAttempts += solution.get().getRows().size();
         }
         final long took = System.currentTimeMillis() - start;
         assertTrue(took < 1000);
