@@ -25,7 +25,7 @@ public class SimulatedAnnealingTest {
         for (int i = 0; i < N; i++) {
             final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1L));
 
-            final QueensProblem problem = new QueensProblem(random);
+            final QueensProblem problem = new QueensProblem(random, 8);
             final QueensProblem optimized = simulatedAnnealing.optimize(problem);
 
             if (optimized.isSolved()) {

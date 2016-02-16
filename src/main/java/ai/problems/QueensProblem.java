@@ -1,25 +1,24 @@
 package ai.problems;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 
 public class QueensProblem implements Problem<QueensProblem> {
 
-    private int[] state = new int[8];
+    private final int[] state;
 
-    public QueensProblem(final Random random) {
-        final int[] state = new int[8];
-        for (int i = 0; i < 8; i++) {
-            state[i] = random.nextInt(8);
+    public QueensProblem(final Random random, final int numQueens) {
+        final int[] state = new int[numQueens];
+        for (int i = 0; i < numQueens; i++) {
+            state[i] = random.nextInt(numQueens);
         }
         this.state = state;
     }
 
     public QueensProblem(final int[] state) {
-        Preconditions.checkArgument(state.length == 8);
         this.state = state;
     }
 
@@ -28,26 +27,43 @@ public class QueensProblem implements Problem<QueensProblem> {
     }
 
     @Override
-    public double getScore() {
-        double score = 0;
-        for (int i = 0; i < 8; i++) {
-            score += getScore(i, state[i]);
+    public double getCost() {
+        double cost = 0;
+        for (int i = 0; i < state.length; i++) {
+            for (int i1 = 0; i1 < state.length; i1++) {
+                if (i1 == i) {
+                    continue;
+                }
+                final int dist = Math.abs(i1 - i);
+
+                if (state[i1] == state[i]) {
+                    cost++;
+                }
+                if (state[i1] - dist == state[i]) {
+                    cost++;
+                }
+                if (state[i1] + dist == state[i]) {
+                    cost++;
+                }
+            }
         }
-        return -score;
+        return cost;
     }
 
     @Override
     public boolean isSolved() {
-        return getScore() == 0;
+        return getCost() == 0;
     }
 
     @Override
     public Set<QueensProblem> getSuccessors() {
         final Set<QueensProblem> successors = Sets.newHashSet();
-        for (int i = 0; i < 8; i++) {
-            for (int u = 0; u < 8; u++) {
-                if (state[i] == u) continue;
-                final int[] newState = new int[8];
+        for (int i = 0; i < state.length; i++) {
+            for (int u = 0; u < state.length; u++) {
+                if (state[i] == u) {
+                    continue;
+                }
+                final int[] newState = new int[state.length];
                 System.arraycopy(state, 0, newState, 0, state.length);
                 newState[i] = u;
                 successors.add(new QueensProblem(newState));
@@ -56,26 +72,12 @@ public class QueensProblem implements Problem<QueensProblem> {
         return successors;
     }
 
-    private int getScore(final int column, final int row) {
-        int score = 0;
-        for (int i = 0; i < 8; i++) {
-            if (i == column) continue;
-            final int dist = Math.abs(i - column);
-
-            if (state[i] == row) score++;
-            if (state[i] - dist == row) score++;
-            if (state[i] + dist == row) score++;
-        }
-
-        return score;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("Score: ").append(getScore()).append("\n");
-        for (int i = 7; i >= 0; i--) {
-            for (int u = 0; u < 8; u++) {
+        sb.append("Score: ").append(getCost()).append("\n");
+        for (int i = state.length - 1; i >= 0; i--) {
+            for (int u = 0; u < state.length; u++) {
                 if (state[u] == i) {
                     sb.append(" * ");
                 } else {
@@ -85,5 +87,28 @@ public class QueensProblem implements Problem<QueensProblem> {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final QueensProblem that = (QueensProblem) o;
+
+        if (!Arrays.equals(state, that.state)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(state);
     }
 }

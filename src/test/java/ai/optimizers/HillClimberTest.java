@@ -15,7 +15,7 @@ public class HillClimberTest {
         final int N = 1000;
         final Random random = new Random(1L);
         for (int i = 0; i < N; i++) {
-            final QueensProblem queensProblem = new QueensProblem(random);
+            final QueensProblem queensProblem = new QueensProblem(random, 8);
             final HillClimber climber = new HillClimber(100);
             final QueensProblem optimized = climber.optimize(queensProblem);
             if (optimized.isSolved()) {
