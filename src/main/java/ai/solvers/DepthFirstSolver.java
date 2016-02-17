@@ -17,11 +17,11 @@ public class DepthFirstSolver implements Solver {
      * @throws LimitReachedException in case the limit is reached
      */
     @Override
-    public <T extends Problem<T>> Optional<T> solve(final T problem) {
-        return solve(problem, limit);
+    public <T extends Problem<T>> Optional<T> solve(final T initial) {
+        return solve(initial, limit);
     }
 
-    public <T extends Problem<T>> Optional<T> solve(final T problem, final int limit) {
+    private <T extends Problem<T>> Optional<T> solve(final T problem, final int limit) {
         if (problem.isSolved()) {
             return Optional.of(problem);
         }

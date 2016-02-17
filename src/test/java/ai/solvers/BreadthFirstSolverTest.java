@@ -16,5 +16,6 @@ public class BreadthFirstSolverTest {
         final Solver solver = new BreadthFirstSolver();
         final Optional<QueensProblem> solution = solver.solve(problem);
         assertTrue(solution.isPresent());
+        assertTrue(solution.get().isSolved());
     }
 }
