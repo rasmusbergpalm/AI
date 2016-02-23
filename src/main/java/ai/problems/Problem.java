@@ -1,9 +1,11 @@
 package ai.problems;
 
+import com.google.common.base.Optional;
+
 import java.util.Comparator;
 import java.util.Set;
 
-public interface Problem<T extends Problem> {
+public interface Problem<T extends Problem<T>> {
 
     Comparator<Problem> COST_COMPARATOR = new Comparator<Problem>() {
         @Override
@@ -31,4 +33,9 @@ public interface Problem<T extends Problem> {
      * Textual representations
      */
     String toString();
+
+    /**
+     * Return the parent problem, or absent if no parent exists.
+     */
+    Optional<T> getParent();
 }
