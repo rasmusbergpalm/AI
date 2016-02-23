@@ -1,5 +1,6 @@
 package ai.problems;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class QueensProblem implements Problem<QueensProblem> {
 
     private final int[] state;
+    private final Optional<QueensProblem> parent;
 
     public QueensProblem(final Random random, final int numQueens) {
         final int[] state = new int[numQueens];
@@ -16,10 +18,17 @@ public class QueensProblem implements Problem<QueensProblem> {
             state[i] = random.nextInt(numQueens);
         }
         this.state = state;
+        parent = Optional.absent();
     }
 
     public QueensProblem(final int[] state) {
         this.state = state;
+        parent = Optional.absent();
+    }
+
+    public QueensProblem(final int[] state, final QueensProblem parent) {
+        this.state = state;
+        this.parent = Optional.of(parent);
     }
 
     public int[] getState() {
@@ -66,10 +75,15 @@ public class QueensProblem implements Problem<QueensProblem> {
                 final int[] newState = new int[state.length];
                 System.arraycopy(state, 0, newState, 0, state.length);
                 newState[i] = u;
-                successors.add(new QueensProblem(newState));
+                successors.add(new QueensProblem(newState, this));
             }
         }
         return successors;
+    }
+
+    @Override
+    public Optional<QueensProblem> getParent() {
+        return parent;
     }
 
     @Override

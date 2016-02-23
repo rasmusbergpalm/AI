@@ -1,6 +1,7 @@
 package ai.problems;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -35,13 +36,12 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
 
     private final ImmutableList<Integer> goal;
     private final ImmutableList<Row> rows;
+    private final Optional<MasterMindProblem> parent;
 
-    public MasterMindProblem(final ImmutableList<Integer> goal, final ImmutableList<Row> attempts, final ImmutableList<Integer> attempt) {
+    public MasterMindProblem(final ImmutableList<Integer> goal, final ImmutableList<Row> rows, final MasterMindProblem parent) {
         this.goal = goal;
-        this.rows = ImmutableList.<Row>builder()
-            .addAll(attempts)
-            .add(new Row(attempt, goal))
-            .build();
+        this.rows = rows;
+        this.parent = Optional.of(parent);
     }
 
     public MasterMindProblem(final Random random) {
@@ -51,7 +51,7 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
             goalBuilder.add(random.nextInt(COLORS.size()));
         }
         goal = goalBuilder.build();
-
+        parent = Optional.absent();
     }
 
     @Override
@@ -74,10 +74,24 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
         for (final ICombinatoricsVector<Integer> move : ALL) {
             final ImmutableList<Integer> attempt = ImmutableList.copyOf(move.getVector());
             if (isPossible(attempt)) {
-                successors.add(new MasterMindProblem(goal, rows, attempt));
+                successors.add(
+                    new MasterMindProblem(
+                        goal,
+                        ImmutableList.<Row>builder()
+                            .addAll(rows)
+                            .add(new Row(attempt, goal))
+                            .build(),
+                        this
+                    )
+                );
             }
         }
         return successors;
+    }
+
+    @Override
+    public Optional<MasterMindProblem> getParent() {
+        return parent;
     }
 
     @Override
