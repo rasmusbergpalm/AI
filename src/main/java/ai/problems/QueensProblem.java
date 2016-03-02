@@ -3,7 +3,6 @@ package ai.problems;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,10 +30,6 @@ public class QueensProblem implements Problem<QueensProblem> {
         this.parent = Optional.of(parent);
     }
 
-    public int[] getState() {
-        return state;
-    }
-
     @Override
     public double getCost() {
         double cost = 0;
@@ -57,6 +52,11 @@ public class QueensProblem implements Problem<QueensProblem> {
             }
         }
         return cost;
+    }
+
+    @Override
+    public double getHeuristicCost() {
+        return 0;
     }
 
     @Override
@@ -87,9 +87,8 @@ public class QueensProblem implements Problem<QueensProblem> {
     }
 
     @Override
-    public String toString() {
+    public String getState() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("Score: ").append(getCost()).append("\n");
         for (int i = state.length - 1; i >= 0; i--) {
             for (int u = 0; u < state.length; u++) {
                 if (state[u] == i) {
@@ -103,26 +102,4 @@ public class QueensProblem implements Problem<QueensProblem> {
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final QueensProblem that = (QueensProblem) o;
-
-        if (!Arrays.equals(state, that.state)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(state);
-    }
 }

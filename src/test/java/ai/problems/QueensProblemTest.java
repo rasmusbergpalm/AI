@@ -5,13 +5,12 @@ import org.junit.Test;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class QueensProblemTest {
 
     @Test
-    public void testGetScore() {
+    public void score_can_be_calculated() {
         QueensProblem problem = new QueensProblem(new int[]{0, 0, 0, 0, 0, 0, 0, 0});
         assertEquals(56, problem.getCost(), 0d);
 
@@ -30,20 +29,10 @@ public class QueensProblemTest {
     }
 
     @Test
-    public void testGetSuccessors() {
+    public void can_create_successors() {
         final QueensProblem problem = new QueensProblem(new int[]{0, 0, 0, 0, 0, 0, 0, 0});
 
         final Set<QueensProblem> successors = problem.getSuccessors();
         assertEquals(56, successors.size());
-        for (final QueensProblem successor : successors) {
-            assertFalse(problem.equals(successor));
-
-            final int[] successorState = successor.getState();
-            int countZeros = 0;
-            for (int i = 0; i < 8; i++) {
-                if (successorState[i] == 0) countZeros++;
-            }
-            assertEquals(7, countZeros);
-        }
     }
 }
