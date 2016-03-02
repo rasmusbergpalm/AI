@@ -69,6 +69,11 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
     }
 
     @Override
+    public double getHeuristicCost() {
+        return 0;
+    }
+
+    @Override
     public Set<MasterMindProblem> getSuccessors() {
         final Set<MasterMindProblem> successors = Sets.newHashSet();
         for (final ICombinatoricsVector<Integer> move : ALL) {
@@ -95,11 +100,8 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
     }
 
     @Override
-    public String toString() {
-        return
-            "Goal:\t" + Joiner.on(" ").join(goal) + "\n"
-                + "Score: " + getCost() + "\n\n"
-                + Joiner.on("\n").join(rows.reverse()) + "\n";
+    public String getState() {
+        return "Goal:\t" + Joiner.on(" ").join(goal) + "\n" + Joiner.on("\n").join(rows.reverse()) + "\n";
     }
 
     private boolean isPossible(final ImmutableList<Integer> attempt) {
@@ -109,34 +111,6 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
             }
         }
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        MasterMindProblem that = (MasterMindProblem) o;
-
-        if (!goal.equals(that.goal)) {
-            return false;
-        }
-        if (!rows.equals(that.rows)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = goal.hashCode();
-        result = 31 * result + rows.hashCode();
-        return result;
     }
 
     public static class Row implements Predicate<ImmutableList<Integer>> {
@@ -226,36 +200,5 @@ public class MasterMindProblem implements Problem<MasterMindProblem> {
             return isPossible(t);
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            Row row = (Row) o;
-
-            if (rightColor != row.rightColor) {
-                return false;
-            }
-            if (rightColorAndPosition != row.rightColorAndPosition) {
-                return false;
-            }
-            if (!attempt.equals(row.attempt)) {
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = attempt.hashCode();
-            result = 31 * result + rightColor;
-            result = 31 * result + rightColorAndPosition;
-            return result;
-        }
     }
 }
