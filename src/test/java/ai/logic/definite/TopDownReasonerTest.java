@@ -1,4 +1,4 @@
-package ai.reasoning;
+package ai.logic.definite;
 
 public class TopDownReasonerTest extends ReasonerTest {
     @Override

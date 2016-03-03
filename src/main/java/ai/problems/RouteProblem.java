@@ -137,8 +137,10 @@ public class RouteProblem implements Problem<RouteProblem> {
             final String s2 = intersection.getStreet2();
             Preconditions.checkArgument(streetPositions.containsKey(s1), "No street named %s in map", s1);
             Preconditions.checkArgument(streetPositions.containsKey(s2), "No street named %s in map", s2);
-            final Set<String> intersections = Sets.newHashSet(streetPositions.get(s1));
-            intersections.retainAll(streetPositions.get(s2));
+            final Set<String> intersections = Sets.intersection(
+                Sets.newHashSet(streetPositions.get(s1)),
+                Sets.newHashSet(streetPositions.get(s2))
+            );
 
             Preconditions.checkArgument(
                 intersections.size() == 1,

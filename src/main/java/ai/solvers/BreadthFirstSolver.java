@@ -14,7 +14,7 @@ public class BreadthFirstSolver implements Solver {
         if (initial.isSolved()) {
             return Optional.of(initial);
         }
-        final LinkedHashMap<String, T> frontier = new LinkedHashMap<String, T>();
+        final LinkedHashMap<String, T> frontier = new LinkedHashMap<>();
         frontier.put(initial.getState(), initial);
         final Set<String> explored = Sets.newHashSet();
 
