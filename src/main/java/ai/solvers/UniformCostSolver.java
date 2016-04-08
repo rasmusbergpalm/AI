@@ -33,8 +33,7 @@ public class UniformCostSolver implements Solver {
                 final Optional<T> successorInFrontier = frontier.get(successor.getState());
                 if (!explored.contains(successor.getState()) && !successorInFrontier.isPresent()) {
                     frontier.offer(successor);
-                } else if (successorInFrontier.isPresent() && successor.getCost() < successorInFrontier.get()
-                    .getCost()) {
+                } else if (successorInFrontier.isPresent() && successor.getCost() < successorInFrontier.get().getCost()) {
                     frontier.remove(successorInFrontier.get());
                     frontier.offer(successor);
                 }

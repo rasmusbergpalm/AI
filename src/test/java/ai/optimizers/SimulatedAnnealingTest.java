@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SimulatedAnnealingTest {
 
@@ -20,18 +20,12 @@ public class SimulatedAnnealingTest {
     @Test
     public void testSolve() {
         final Random random = new Random(1L);
-        int solved = 0;
-        final int N = 1000;
-        for (int i = 0; i < N; i++) {
-            final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1L));
 
-            final QueensProblem problem = new QueensProblem(random, 8);
-            final QueensProblem optimized = simulatedAnnealing.optimize(problem);
+        final SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(schedule, new Random(1L));
 
-            if (optimized.isSolved()) {
-                solved++;
-            }
-        }
-        assertEquals(0.089, (double) solved / N, 0.02d);
+        final QueensProblem problem = new QueensProblem(random, 8);
+        final QueensProblem optimized = simulatedAnnealing.optimize(problem);
+
+        assertTrue(optimized.getCost() < problem.getCost());
     }
 }

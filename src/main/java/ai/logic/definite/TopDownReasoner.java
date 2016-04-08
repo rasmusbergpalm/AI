@@ -1,4 +1,4 @@
-package ai.reasoning;
+package ai.logic.definite;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
