@@ -12,7 +12,7 @@ public class BreadthFirstSolverTest {
 
     @Test
     public void can_solve_queens_problems() {
-        final QueensProblem problem = new QueensProblem(new Random(), 6);
+        final QueensProblem problem = new QueensProblem(new Random(), 5);
         final Solver solver = new BreadthFirstSolver();
         final Optional<QueensProblem> solution = solver.solve(problem);
         assertTrue(solution.isPresent());
