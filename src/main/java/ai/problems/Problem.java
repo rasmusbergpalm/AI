@@ -5,6 +5,11 @@ import com.google.common.base.Optional;
 import java.util.Comparator;
 import java.util.Set;
 
+/**
+ * A problem described in a way such that a {@link ai.solvers.Solver} can solve it.
+ *
+ * @param <T>
+ */
 public interface Problem<T extends Problem> {
 
     Comparator<Problem> COST_COMPARATOR = new Comparator<Problem>() {

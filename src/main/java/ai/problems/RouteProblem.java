@@ -105,12 +105,12 @@ public class RouteProblem implements Problem<RouteProblem> {
 
     public static class CityMap {
 
-        private final ImmutableTable<String, String, String> map;
-        private final ImmutableMultimap<String, String> streetPositions;
+        private final ImmutableTable<String, String, String> fromToVia;
+        private final ImmutableMultimap<String, String> streetIntersections;
 
-        private CityMap(final ImmutableTable<String, String, String> map, final ImmutableMultimap<String, String> streetPositions) {
-            this.map = map;
-            this.streetPositions = streetPositions;
+        private CityMap(final ImmutableTable<String, String, String> fromToVia, final ImmutableMultimap<String, String> streetIntersections) {
+            this.fromToVia = fromToVia;
+            this.streetIntersections = streetIntersections;
         }
 
         public static CityMap from(final Path file) throws IOException {
@@ -120,26 +120,26 @@ public class RouteProblem implements Problem<RouteProblem> {
             for (final String line : lines) {
                 final String[] parts = line.split(" ");
                 final String from = parts[0] + "," + parts[1];
-                final String label = parts[2];
+                final String street = parts[2];
                 final String to = parts[3] + "," + parts[4];
-                mapBuilder.put(from, to, label);
-                streetBuilder.putAll(label, from, to);
+                mapBuilder.put(from, to, street);
+                streetBuilder.putAll(street, from, to);
             }
             return new CityMap(mapBuilder.build(), streetBuilder.build());
         }
 
         public ImmutableMap<String, String> neighbours(final String position) {
-            return map.row(position);
+            return fromToVia.row(position);
         }
 
         public String find(final Intersection intersection) {
             final String s1 = intersection.getStreet1();
             final String s2 = intersection.getStreet2();
-            Preconditions.checkArgument(streetPositions.containsKey(s1), "No street named %s in map", s1);
-            Preconditions.checkArgument(streetPositions.containsKey(s2), "No street named %s in map", s2);
+            Preconditions.checkArgument(streetIntersections.containsKey(s1), "No street named %s in fromToVia", s1);
+            Preconditions.checkArgument(streetIntersections.containsKey(s2), "No street named %s in fromToVia", s2);
             final Set<String> intersections = Sets.intersection(
-                Sets.newHashSet(streetPositions.get(s1)),
-                Sets.newHashSet(streetPositions.get(s2))
+                Sets.newHashSet(streetIntersections.get(s1)),
+                Sets.newHashSet(streetIntersections.get(s2))
             );
 
             Preconditions.checkArgument(

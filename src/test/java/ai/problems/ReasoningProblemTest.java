@@ -2,8 +2,9 @@ package ai.problems;
 
 import ai.logic.propositional.CNF;
 import ai.logic.propositional.Clause;
+import ai.solvers.SolutionPrinter;
 import ai.solvers.Solver;
-import ai.solvers.UniformCostSolver;
+import ai.solvers.AStarSolver;
 import com.google.common.base.Optional;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ReasoningProblemTest {
 
-    private final Solver solver = new UniformCostSolver();
+    private final Solver solver = new AStarSolver();
 
     @Test
     public void given_a_tautology_you_cant_prove_anything() {
@@ -78,6 +79,7 @@ public class ReasoningProblemTest {
 
         final Optional<ReasoningProblem> s1 = solver.solve(new ReasoningProblem(kb, p("W31")));
         assertTrue(s1.isPresent());
+        SolutionPrinter.print(s1.get());
 
         final Optional<ReasoningProblem> s2 = solver.solve(new ReasoningProblem(kb, p("P13")));
         assertTrue(s2.isPresent());
