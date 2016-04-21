@@ -25,8 +25,8 @@ public class Clause {
     /**
      * @param positive A space separated string of literals, e.g. "A B C"
      * @param negative A space separated string of negative literals, e.g. "D E"
-     *                 <p/>
-     *                 The values above would result in the clause "A or B or C or (not D) or (not E)"
+     *                 <p>
+     *                 <p>The values above would result in the clause "A or B or C or (not D) or (not E)"</p>
      * @return the clause
      */
     public static Clause of(final String positive, final String negative) {
@@ -74,19 +74,21 @@ public class Clause {
         final Builder<Clause> builder = ImmutableSet.builder();
         for (final String s : Sets.intersection(this.getPositive(), that.getNegative())) {
             final Set<String> literal = ImmutableSet.of(s);
-            builder.add(
-                    new Clause(
-                            Sets.union(Sets.difference(this.getPositive(), literal), that.getPositive()).immutableCopy(),
-                            Sets.union(Sets.difference(that.getNegative(), literal), this.getNegative()).immutableCopy()
-                    ));
+            builder.add(new Clause(
+                    Sets.union(Sets.difference(this.getPositive(), literal),
+                            that.getPositive()).immutableCopy(),
+                    Sets.union(Sets.difference(that.getNegative(), literal),
+                            this.getNegative()).immutableCopy()
+            ));
         }
         for (final String s : Sets.intersection(this.getNegative(), that.getPositive())) {
             final Set<String> literal = ImmutableSet.of(s);
-            builder.add(
-                    new Clause(
-                            Sets.union(Sets.difference(that.getPositive(), literal), this.getPositive()).immutableCopy(),
-                            Sets.union(Sets.difference(this.getNegative(), literal), that.getNegative()).immutableCopy()
-                    ));
+            builder.add(new Clause(
+                    Sets.union(Sets.difference(that.getPositive(), literal),
+                            this.getPositive()).immutableCopy(),
+                    Sets.union(Sets.difference(this.getNegative(), literal),
+                            that.getNegative()).immutableCopy()
+            ));
         }
 
         return ImmutableSet.copyOf(Sets.filter(builder.build(), TAUTOLOGY_FILTER));

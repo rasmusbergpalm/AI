@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class UniformCostSolver implements Solver {
+public class AStarSolver implements Solver {
 
     @Override
     public <T extends Problem<T>> Optional<T> solve(final T initial) {
@@ -33,7 +33,8 @@ public class UniformCostSolver implements Solver {
                 final Optional<T> successorInFrontier = frontier.get(successor.getState());
                 if (!explored.contains(successor.getState()) && !successorInFrontier.isPresent()) {
                     frontier.offer(successor);
-                } else if (successorInFrontier.isPresent() && successor.getCost() < successorInFrontier.get().getCost()) {
+                } else if (successorInFrontier.isPresent()
+                        && successor.getCost() < successorInFrontier.get().getCost()) {
                     frontier.remove(successorInFrontier.get());
                     frontier.offer(successor);
                 }
@@ -69,10 +70,12 @@ public class UniformCostSolver implements Solver {
 
         public void remove(final T obj) {
             if (!queue.remove(obj)) {
-                throw new IllegalStateException("Was asked to remove object from queue that was not present: " + obj.getState());
+                throw new IllegalStateException("Was asked to remove object from queue " +
+                        "that was not present: " + obj.getState());
             }
             if (map.remove(obj.getState()) == null) {
-                throw new IllegalStateException("Was asked to remove object from map that was not present: " + obj.getState());
+                throw new IllegalStateException("Was asked to remove object from map " +
+                        "that was not present: " + obj.getState());
             }
         }
     }

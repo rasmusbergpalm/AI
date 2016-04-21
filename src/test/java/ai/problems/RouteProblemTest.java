@@ -2,9 +2,9 @@ package ai.problems;
 
 import ai.problems.RouteProblem.CityMap;
 import ai.problems.RouteProblem.CityMap.Intersection;
+import ai.solvers.AStarSolver;
 import ai.solvers.SolutionPrinter;
 import ai.solvers.Solver;
-import ai.solvers.UniformCostSolver;
 import com.google.common.base.Optional;
 import org.junit.Test;
 
@@ -19,18 +19,15 @@ public class RouteProblemTest {
 
     @Test
     public void copenhagen_test() throws IOException, URISyntaxException {
-        final CityMap cityMap = CityMap.from(
-            Paths.get(
-                CityMap.class.getClassLoader()
-                    .getResource("copenhagen.txt")
-                    .toURI()
-            )
-        );
-        final Solver solver = new UniformCostSolver();
+        final Solver solver = new AStarSolver();
+        final CityMap cityMap = CityMap.from(Paths.get(CityMap.class.getClassLoader()
+                .getResource("copenhagen.txt")
+                .toURI()
+        ));
         final RouteProblem problem = new RouteProblem(
-            cityMap,
-            Intersection.of("SktPedersStraede", "Larsbjoernsstraede"),
-            Intersection.of("Studiestraede", "Larsbjoernsstraede")
+                cityMap,
+                Intersection.of("SktPedersStraede", "Larsbjoernsstraede"),
+                Intersection.of("Studiestraede", "Larsbjoernsstraede")
         );
 
         final Optional<RouteProblem> solution = solver.solve(problem);
@@ -42,17 +39,17 @@ public class RouteProblemTest {
     @Test
     public void manhattan_test() throws IOException, URISyntaxException {
         final CityMap cityMap = CityMap.from(
-            Paths.get(
-                CityMap.class.getClassLoader()
-                    .getResource("manhattan.txt")
-                    .toURI()
-            )
+                Paths.get(
+                        CityMap.class.getClassLoader()
+                                .getResource("manhattan.txt")
+                                .toURI()
+                )
         );
-        final Solver solver = new UniformCostSolver();
+        final Solver solver = new AStarSolver();
         final RouteProblem problem = new RouteProblem(
-            cityMap,
-            Intersection.of("street_0", "avenue_0"),
-            Intersection.of("street_9", "avenue_9")
+                cityMap,
+                Intersection.of("street_0", "avenue_0"),
+                Intersection.of("street_9", "avenue_9")
         );
 
         final Optional<RouteProblem> solution = solver.solve(problem);

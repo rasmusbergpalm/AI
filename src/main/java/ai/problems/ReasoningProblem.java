@@ -19,7 +19,7 @@ public class ReasoningProblem implements Problem<ReasoningProblem> {
     public ReasoningProblem(final CNF knowledgeBase, final CNF hypothesis) {
         this.knowledgeBase = knowledgeBase.and(not(hypothesis));
         this.parent = Optional.absent();
-        this.state = this.knowledgeBase.getClauses().iterator().next();
+        this.state = null;
         this.initial = true;
     }
 
@@ -40,12 +40,12 @@ public class ReasoningProblem implements Problem<ReasoningProblem> {
 
     @Override
     public double getHeuristicCost() {
-        return state.getNegative().size() + state.getPositive().size();
+        return initial ? 0 : state.getNegative().size() + state.getPositive().size();
     }
 
     @Override
     public boolean isSolved() {
-        return state.isContradiction();
+        return !initial && state.isContradiction();
     }
 
     @Override
@@ -73,6 +73,6 @@ public class ReasoningProblem implements Problem<ReasoningProblem> {
 
     @Override
     public String getState() {
-        return state.toString();
+        return initial ? "START" : state.toString();
     }
 }
